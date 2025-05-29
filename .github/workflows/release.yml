@@ -1,0 +1,29 @@
+name: Build and Package on Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn build
+
+      - name: Package dist folder
+        run: |
+          cd dist
+          zip -r ../tgfoa-bepinex.zip .
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: tgfoa-bepinex.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

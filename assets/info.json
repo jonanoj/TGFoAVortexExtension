@@ -1,6 +1,6 @@
 {
   "name": "Game: Tainted Grail: The Fall of Avalon",
   "author": "jonanoj",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Support for Tainted Grail: The Fall of Avalon mods using BepInEx"
 }

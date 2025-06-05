@@ -11,10 +11,10 @@ const BEPINEX_DOWNLOAD_INFO: INexusDownloadInfo = {
     gameId: GAME_ID,
     domainId: GAME_ID,
     modId: '16',
-    fileId: '52',
-    archiveName: 'BepinEx-16-6-0-0-be-735-1748475694.zip',
+    fileId: '60',
+    archiveName: 'BepinEx-16-6-0-0-be-735a-1748617881.zip',
     architecture: 'x64',
-    version: '6.0.0-be+735', // Semver compliant version
+    version: '6.0.0-be+735a', // Semver compliant version https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
     allowAutoInstall: true,
 }
 

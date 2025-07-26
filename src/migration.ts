@@ -7,22 +7,21 @@ export function showMonoMigrationReminder(context) {
   const settings = getSettings(state);
 
   const nextReminderTime = settings.monoMigrationNextReminderTime;
-  console.log(
-    "Next reminder time:",
-    nextReminderTime === -1
-      ? "Never"
-      : nextReminderTime != undefined
-        ? new Date(nextReminderTime)
-        : "Now",
-  );
 
-  const t = context.api.translate;
   const shouldShowReminder =
     settings.monoMigrationNextReminderTime == undefined ||
     (settings.monoMigrationNextReminderTime !== -1 && // -1 means the user has dismissed forever
       settings.monoMigrationNextReminderTime < Date.now());
 
+  const nextReminderTimeString = shouldShowReminder
+    ? "Now"
+    : nextReminderTime === -1
+      ? "Never"
+      : new Date(nextReminderTime).toLocaleString();
+  console.log(`Next Mono migration reminder time: ${nextReminderTimeString}`);
+
   if (shouldShowReminder) {
+    const t = context.api.translate;
     const replace = {
       game: GAME.name,
       bl: "[br][/br]",

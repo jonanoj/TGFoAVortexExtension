@@ -1,6 +1,6 @@
 # Tainted Grail - The Fall of Avalon Vortex Extension
 
-This extension adds support for managing BepInEx mods for Tainted Grail: The Fall of Avalon in Vortex Mod Manager. 
+This extension adds support for managing BepInEx mods for Tainted Grail: The Fall of Avalon in Vortex Mod Manager.
 
 ## Build
 

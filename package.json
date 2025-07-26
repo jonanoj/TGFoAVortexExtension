@@ -1,23 +1,23 @@
 {
-    "name": "tgfoa-bepinex",
-    "version": "1.1.0",
-    "description": "Support for Tainted Grail: The Fall of Avalon mods using BepInEx",
-    "author": "jonanoj",
-    "main": "./out/index.js",
-    "scripts": {
-        "copyassets": "node copyassets.js",
-        "build": "webpack --config webpack.config.js && extractInfo && yarn copyassets"
-    },
-    "repository": "git@github.com:jonanoj/TGFoAVortexExtension.git",
-    "license": "MIT",
-    "dependencies": {},
-    "devDependencies": {
-        "modtype-bepinex": "Nexus-Mods/extension-modtype-bepinex",
-        "prettier": "3.6.2",
-        "ts-loader": "^9.5.2",
-        "typescript": "^5.8.3",
-        "vortex-api": "Nexus-Mods/vortex-api",
-        "webpack": "^5.99.9",
-        "webpack-cli": "^6.0.1"
-    }
+  "name": "tgfoa-bepinex",
+  "version": "1.1.0",
+  "description": "Support for Tainted Grail: The Fall of Avalon mods using BepInEx",
+  "author": "jonanoj",
+  "main": "./out/index.js",
+  "scripts": {
+    "copyassets": "node copyassets.js",
+    "build": "webpack --config webpack.config.js && extractInfo && yarn copyassets"
+  },
+  "repository": "git@github.com:jonanoj/TGFoAVortexExtension.git",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "modtype-bepinex": "Nexus-Mods/extension-modtype-bepinex",
+    "prettier": "3.6.2",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3",
+    "vortex-api": "Nexus-Mods/vortex-api",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
+  }
 }

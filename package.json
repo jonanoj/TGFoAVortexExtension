@@ -6,7 +6,9 @@
   "main": "./out/index.js",
   "scripts": {
     "copyassets": "node copyassets.js",
-    "build": "webpack --config webpack.config.js && extractInfo && yarn copyassets"
+    "build": "webpack --config webpack.config.js && extractInfo && yarn copyassets",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "repository": "git@github.com:jonanoj/TGFoAVortexExtension.git",
   "license": "MIT",

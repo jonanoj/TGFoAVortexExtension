@@ -1,44 +1,16 @@
 import path from "path";
 import { fs, util, type types } from "vortex-api";
-import type {
-  IBepInExGameConfig,
-  INexusDownloadInfo,
-} from "../node_modules/modtype-bepinex/src/types";
-
-const GAME_ID = "taintedgrailthefallofavalon";
-const STEAM_ID = "1466060";
-const GOG_ID = "1887281589";
-const GAME_DATA_DIR = "Fall of Avalon_Data";
-const IL2CPP_DIR = path.join(GAME_DATA_DIR, "il2cpp_data");
-const MANAGED_DLL_DIR = path.join(GAME_DATA_DIR, "Managed");
-const GAME_EXE_FILENAME = "Fall of Avalon.exe";
-
-const BEPINEX5_DOWNLOAD_INFO: INexusDownloadInfo = {
-  gameId: GAME_ID,
-  domainId: GAME_ID,
-  modId: "50",
-  fileId: "162",
-  archiveName: "BepInEx Mono Windows x64-50-5-4-23-3-1752802821.zip",
-  architecture: "x64",
-  version: "5.4.23.3",
-  allowAutoInstall: false,
-};
-
-const BEPINEX6_DOWNLOAD_INFO: INexusDownloadInfo = {
-  gameId: GAME_ID,
-  domainId: GAME_ID,
-  modId: "16",
-  fileId: "100",
-  archiveName: "BepinEx-16-6-0-0-be-735b-1749459702.zip",
-  architecture: "x64",
-  version: "6.0.0-be+735b", // Semver compliant version https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
-  allowAutoInstall: false,
-};
-
-const enum InstallationType {
-  Mono = "Mono (v5)",
-  IL2CPP = "IL2CPP (v6)",
-}
+import type { IBepInExGameConfig } from "../node_modules/modtype-bepinex/src/types";
+import {
+  BEPINEX5_DOWNLOAD_INFO,
+  BEPINEX6_DOWNLOAD_INFO,
+  GAME,
+  IL2CPP_DIR,
+  MANAGED_DLL_DIR,
+} from "./consts";
+import { showMonoMigrationReminder } from "./migration";
+import { settingsReducer } from "./reducers";
+import { InstallationType } from "./types";
 
 async function doesDirectoryExist(dir: string): Promise<boolean> {
   try {
@@ -102,40 +74,17 @@ async function checkBepInExBuild(
 
 function main(context: types.IExtensionContext): boolean {
   context.requireExtension("modtype-bepinex");
-
-  const modPath = path.join("BepInEx", "plugins");
-
-  context.registerGame({
-    id: GAME_ID,
-    name: "Tainted Grail: The Fall of Avalon",
-    shortName: "TG:FoA",
-    mergeMods: true,
-    queryPath: () =>
-      util.GameStoreHelper.findByAppId([STEAM_ID, GOG_ID]).then(
-        (game) => game.gamePath,
-      ),
-    setup: (discovery) => fs.ensureDirAsync(path.join(discovery.path, modPath)),
-    logo: "gameart.png",
-    queryModPath: () => modPath,
-    executable: () => GAME_EXE_FILENAME,
-    requiredFiles: [GAME_EXE_FILENAME],
-    environment: {
-      SteamAPPId: STEAM_ID,
-    },
-    details: {
-      steamAppId: STEAM_ID,
-      gogAppId: GOG_ID,
-    },
-  });
+  context.registerReducer(["settings", GAME.id], settingsReducer);
+  context.registerGame(GAME);
 
   const bepInEx5Config: IBepInExGameConfig = {
-    gameId: GAME_ID,
+    gameId: GAME.id,
     autoDownloadBepInEx: true,
     unityBuild: "unitymono",
     customPackDownloader: () => Promise.resolve(BEPINEX5_DOWNLOAD_INFO),
   };
   const bepInEx6Config: IBepInExGameConfig = {
-    gameId: GAME_ID,
+    gameId: GAME.id,
     autoDownloadBepInEx: true,
     unityBuild: "unityil2cpp",
     customPackDownloader: () => Promise.resolve(BEPINEX6_DOWNLOAD_INFO),
@@ -143,15 +92,23 @@ function main(context: types.IExtensionContext): boolean {
 
   context.once(async () => {
     if (context.api.ext.bepinexAddGame !== undefined) {
-      const game = util.getGame(GAME_ID);
-      const gamePath = await game.queryPath();
+      const gamePath = await GAME.queryPath();
+      const gameStore = await util.GameStoreHelper.identifyStore(gamePath);
       const gameBuild = await checkGameBuild(gamePath);
+
+      console.log(`Game Store: ${gameStore}, Game Build: ${gameBuild}`);
+
       if (gameBuild === InstallationType.Mono) {
-        console.log("Installing BepInEx 5 (Mono)");
+        console.log("Using BepInEx 5 (Mono)");
         await context.api.ext.bepinexAddGame(bepInEx5Config);
       } else {
-        console.log("Installing BepInEx 6 (IL2CPP)");
+        console.log("Using BepInEx 6 (IL2CPP)");
         await context.api.ext.bepinexAddGame(bepInEx6Config);
+
+        if (gameStore === util.steam.id) {
+          // Mono version is currently only available on Steam
+          showMonoMigrationReminder(context);
+        }
       }
 
       const bepInExBuild = await checkBepInExBuild(gamePath);
@@ -162,10 +119,10 @@ function main(context: types.IExtensionContext): boolean {
 
         const t = context.api.translate;
         const replace = {
-          game: game.name,
+          game: GAME.name,
           gameBuild,
           bepInExBuild,
-          bl: "[br][/br][br][/br]",
+          bl: "[br][/br]",
         };
 
         context.api.showDialog(
@@ -179,7 +136,7 @@ function main(context: types.IExtensionContext): boolean {
               { replace },
             ),
           },
-          [{ label: "Close", default: true }],
+          [{ label: t("Close"), default: true }],
         );
       }
     }

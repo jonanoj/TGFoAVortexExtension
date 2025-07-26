@@ -6,6 +6,16 @@ export function showMonoMigrationReminder(context) {
   const state = context.api.store.getState();
   const settings = getSettings(state);
 
+  const nextReminderTime = settings.monoMigrationNextReminderTime;
+  console.log(
+    "Next reminder time:",
+    nextReminderTime === -1
+      ? "Never"
+      : nextReminderTime != undefined
+        ? new Date(nextReminderTime)
+        : "Now",
+  );
+
   const t = context.api.translate;
   const shouldShowReminder =
     settings.monoMigrationNextReminderTime == undefined ||
@@ -32,7 +42,7 @@ export function showMonoMigrationReminder(context) {
       },
       [
         {
-          label: t("Open Guide"),
+          label: t("Open migration guide"),
           action: () =>
             context.api.ext.nexusOpenModPage(
               GAME.id,
@@ -41,7 +51,7 @@ export function showMonoMigrationReminder(context) {
             ),
         },
         {
-          label: t("Remind in 1 week"),
+          label: t("Remind me in a week"),
           action: () => {
             const nextReminder = Date.now() + 7 * 24 * 60 * 60 * 1000; // 1 week later
             context.api.store.dispatch(
@@ -50,7 +60,7 @@ export function showMonoMigrationReminder(context) {
           },
         },
         {
-          label: t("Never show again"),
+          label: t("Don't remind me again"),
           action: () => {
             context.api.store.dispatch(setMonoMigrationNextReminderTime(-1));
           },

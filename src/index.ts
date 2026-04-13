@@ -92,7 +92,18 @@ function main(context: types.IExtensionContext): boolean {
 
   context.once(async () => {
     if (context.api.ext.bepinexAddGame !== undefined) {
-      const gamePath = await GAME.queryPath();
+      const gamePath = util.getSafe(
+        context.api.getState(),
+        ["settings", "gameMode", "discovered", GAME.id, "path"],
+        undefined,
+      );
+      if (!gamePath) {
+        console.warn(
+          "Game path not set, cannot determine game build or install BepInEx.",
+        );
+        return;
+      }
+
       const gameStore = await util.GameStoreHelper.identifyStore(gamePath);
       const gameBuild = await checkGameBuild(gamePath);
 

@@ -23,6 +23,7 @@ xcopy /Y /E /I dist %APPDATA%\Vortex\plugins\tgfoadev
 1. Update the version in `package.json` and `info.json`
 2. Commit & push to GitHub
 3. Create a new release with a tag matching the semver version (e.g. 1.4.0)
+4. Upload new version to Nexus Mods
 
 A release build will be automatically triggered, and an artifact will be attached to the build through [.github/workflows/release.yml](.github/workflows/release.yml).
 

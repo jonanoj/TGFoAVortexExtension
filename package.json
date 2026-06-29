@@ -6,24 +6,18 @@
   "main": "./out/index.js",
   "scripts": {
     "copyassets": "node copyassets.mjs",
-    "build": "webpack --config webpack.config.js && extractInfo && yarn copyassets",
+    "build": "rolldown --config rolldown.config.mjs && extractInfo && yarn copyassets",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "repository": "git@github.com:jonanoj/TGFoAVortexExtension.git",
   "license": "MIT",
-  "dependencies": {
-    "redux-act": "^1.8.0"
-  },
   "devDependencies": {
-    "@types/redux": "^3.6.0",
-    "modtype-bepinex": "Nexus-Mods/extension-modtype-bepinex",
-    "prettier": "3.6.2",
-    "ts-loader": "^9.5.2",
-    "typescript": "^5.8.3",
-    "vortex-api": "Nexus-Mods/vortex-api",
-    "webpack": "^5.99.9",
-    "webpack-cli": "^6.0.1"
+    "@nexusmods/nexus-api": "git+https://github.com/Nexus-Mods/node-nexus-api#4192c0c9f34306c2167e258dd4fef773af406161",
+    "prettier": "3.9.3",
+    "rolldown": "^1.1.3",
+    "typescript": "5.9.3",
+    "vortex-api": "git+https://github.com/Nexus-Mods/vortex-api.git"
   },
   "packageManager": "yarn@4.17.0"
 }

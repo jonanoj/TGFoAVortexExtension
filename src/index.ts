@@ -1,6 +1,6 @@
 import path from "path";
 import { fs, util, type types } from "vortex-api";
-import type { IBepInExGameConfig } from "../node_modules/modtype-bepinex/src/types";
+import type { IBepInExGameConfig } from "modtype-bepinex/src/types";
 import {
   BEPINEX5_DOWNLOAD_INFO,
   BEPINEX6_DOWNLOAD_INFO,

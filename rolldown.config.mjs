@@ -2,7 +2,10 @@ import { defineConfig } from "rolldown";
 import { builtinModules } from "node:module";
 import { readFileSync } from "node:fs";
 const { peerDependencies } = JSON.parse(
-  readFileSync(new URL("./node_modules/vortex-api/package.json", import.meta.url), "utf-8")
+  readFileSync(
+    new URL("./node_modules/vortex-api/package.json", import.meta.url),
+    "utf-8",
+  ),
 );
 function getExternals() {
   const builtins = builtinModules.filter((m) => !m.startsWith("_"));

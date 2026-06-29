@@ -37,8 +37,8 @@ export const GAME: IGame = {
 export const BEPINEX5_DOWNLOAD_INFO: INexusDownloadInfo = {
   gameId: GAME.id,
   domainId: GAME.id,
-  modId: "50",
-  fileId: "162",
+  modId: 50,
+  fileId: 162,
   archiveName: "BepInEx Mono Windows x64-50-5-4-23-3-1752802821.zip",
   architecture: "x64",
   version: "5.4.23.3",
@@ -48,8 +48,8 @@ export const BEPINEX5_DOWNLOAD_INFO: INexusDownloadInfo = {
 export const BEPINEX6_DOWNLOAD_INFO: INexusDownloadInfo = {
   gameId: GAME.id,
   domainId: GAME.id,
-  modId: "16",
-  fileId: "100",
+  modId: 16,
+  fileId: 100,
   archiveName: "BepinEx-16-6-0-0-be-735b-1749459702.zip",
   architecture: "x64",
   version: "6.0.0-be+735b", // Semver compliant version https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions

@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.x"
+      - run: corepack enable
+      - run: yarn install
+      - run: yarn build
+
+      - name: Package dist folder
+        run: cd dist && zip -r ../tgfoa-bepinex.zip .
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: tgfoa-bepinex
+          path: tgfoa-bepinex.zip
+          retention-days: 7

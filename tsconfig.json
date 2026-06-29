@@ -11,7 +11,10 @@
     "jsx": "react",
     "sourceMap": true,
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "modtype-bepinex/*": ["typings.custom/modtype-bepinex/*"]
+    }
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*"]

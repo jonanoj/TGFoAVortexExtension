@@ -1,10 +1,9 @@
-import { types, util } from "vortex-api";
-import { IState } from "vortex-api/lib/types/api";
+import { type types, util } from "vortex-api";
 import { setMonoMigrationNextReminderTime } from "./actions";
 import { GAME } from "./consts";
 import { ExtensionSettings } from "./types";
 
-export function getSettings(state: IState): ExtensionSettings {
+export function getSettings(state: types.IState): ExtensionSettings {
   return util.getSafe(state, ["settings", GAME.id], {});
 }
 

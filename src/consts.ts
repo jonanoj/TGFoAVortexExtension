@@ -1,7 +1,6 @@
-import { INexusDownloadInfo } from "modtype-bepinex/src/types";
+import type { INexusDownloadInfo } from "modtype-bepinex/src/types";
 import path from "path";
-import { fs, util } from "vortex-api";
-import { IGame } from "vortex-api/lib/types/api";
+import { fs, util, type types } from "vortex-api";
 
 export const STEAM_ID = "1466060";
 export const GOG_ID = "1887281589";
@@ -11,7 +10,7 @@ export const MANAGED_DLL_DIR = path.join(GAME_DATA_DIR, "Managed");
 export const GAME_EXE_FILENAME = "Fall of Avalon.exe";
 export const MOD_PATH = path.join("BepInEx", "plugins");
 
-export const GAME: IGame = {
+export const GAME: types.IGame = {
   id: "taintedgrailthefallofavalon",
   name: "Tainted Grail: The Fall of Avalon",
   shortName: "TG:FoA",

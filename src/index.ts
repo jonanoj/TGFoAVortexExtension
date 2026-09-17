@@ -92,20 +92,20 @@ function main(context: types.IExtensionContext): boolean {
 
   context.once(async () => {
     if (context.api.ext.bepinexAddGame !== undefined) {
-      const gamePath = util.getSafe(
+      const discovery = util.getSafe(
         context.api.getState(),
-        ["settings", "gameMode", "discovered", GAME.id, "path"],
+        ["settings", "gameMode", "discovered", GAME.id],
         undefined,
       );
-      if (!gamePath) {
+      if (!discovery?.path) {
         console.warn(
           "Game path not set, cannot determine game build or install BepInEx.",
         );
         return;
       }
-
-      const gameStore = await util.GameStoreHelper.identifyStore(gamePath);
-      const gameBuild = await checkGameBuild(gamePath);
+    
+      const gameStore = discovery.store;
+      const gameBuild = await checkGameBuild(discovery.path);
 
       console.log(`Game Store: ${gameStore}, Game Build: ${gameBuild}`);
 
@@ -116,7 +116,7 @@ function main(context: types.IExtensionContext): boolean {
         console.log("Using BepInEx 6 (IL2CPP)");
         await context.api.ext.bepinexAddGame(bepInEx6Config);
 
-        if (gameStore === util.steam.id) {
+        if (gameStore === "steam") {
           // Mono version is currently only available on Steam
           showMonoMigrationReminder(context);
         }

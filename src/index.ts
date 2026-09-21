@@ -118,10 +118,7 @@ function main(context: types.IExtensionContext): boolean {
         console.log("Using BepInEx 6 (IL2CPP)");
         await context.api.ext.bepinexAddGame(bepInEx6Config);
 
-        if (gameStore === "steam") {
-          // Mono version is currently only available on Steam
-          showMonoMigrationReminder(context);
-        }
+        showMonoMigrationReminder(context);
       }
 
       const bepInExBuild = await checkBepInExBuild(gamePath);

@@ -103,7 +103,7 @@ function main(context: types.IExtensionContext): boolean {
         );
         return;
       }
-    
+
       const gameStore = discovery.store;
       const gameBuild = await checkGameBuild(discovery.path);
 

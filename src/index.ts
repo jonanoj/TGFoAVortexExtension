@@ -97,7 +97,9 @@ function main(context: types.IExtensionContext): boolean {
         ["settings", "gameMode", "discovered", GAME.id],
         undefined,
       );
-      if (!discovery?.path) {
+
+      const gamePath = discovery?.path;
+      if (!gamePath) {
         console.warn(
           "Game path not set, cannot determine game build or install BepInEx.",
         );
@@ -105,7 +107,7 @@ function main(context: types.IExtensionContext): boolean {
       }
 
       const gameStore = discovery.store;
-      const gameBuild = await checkGameBuild(discovery.path);
+      const gameBuild = await checkGameBuild(gamePath);
 
       console.log(`Game Store: ${gameStore}, Game Build: ${gameBuild}`);
 
